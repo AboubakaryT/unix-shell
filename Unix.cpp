@@ -6,12 +6,12 @@ int main(){
     bool run = true;
     while(run){
         std::cout << "mini-shell> ";
-        std::string i = "";
-        if (!std::getline(std::cin, i)){
+        std::string input = "";
+        if (!std::getline(std::cin, input)){
             break;
         }
 
-    if(i == "quit" || i == "exit" || i == "close"){
+    if(input == "quit" || input == "exit" || input == "close"){
         run = false;
     }
     }

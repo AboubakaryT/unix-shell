@@ -1,0 +1,22 @@
+#include <iostream>
+#include <unistd.h>
+#include <sys/wait.h>
+
+int main(){
+    //create child process
+    pid_t pid = fork();
+
+    if(pid == -1){
+        std::cerr<< "fork failed\n";
+        return 1;
+    }
+    else if(pid == 0){
+        std::cout<< "I am the child!\n";
+    }
+    else{
+        waitpid(pid,nullptr,0);
+        std::cout << "I am the parent\n";
+    }
+    std::cout << "forked return " << pid << "\n";
+    return 0;
+}
