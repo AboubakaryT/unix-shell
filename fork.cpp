@@ -1,7 +1,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <sys/wait.h>
-
+#include <cstdio>
 int main(){
     //create child process
     pid_t pid = fork();
@@ -12,6 +12,14 @@ int main(){
     }
     else if(pid == 0){
         std::cout<< "I am the child!\n";
+        //String - Automatically adds null terminating character
+        char command[] = "ls";
+        //&command, nullptr
+        char* args[] = {command, nullptr};
+
+        execvp(command, args);
+        perror("execvp");
+        _exit(1);
     }
     else{
         waitpid(pid,nullptr,0);
