@@ -3,9 +3,12 @@
 #include <sys/wait.h>
 #include <cstdio>
 #include <string>
+#include <sstream>
+#include <vector>
 
 int main(){
     while(true){
+    std::cout << "myshell> " << std::flush;
     std::string command;
     if(!std::getline(std::cin, command)){
         return 0;
@@ -20,9 +23,20 @@ int main(){
         return 1;
     }
     else if(pid == 0){
-        char* args[] = {command.data(), nullptr};
+    
+        std::istringstream iss(command);
+        std::string token;
+        std::vector<std::string> tokens;
+        while(iss >> token){
+            tokens.push_back(token);
+        }
+        std::vector<char*> args;
+        for (std::string& t : tokens){
+        args.push_back(t.data());
+        }
 
-        execvp(args[0], args);
+        args.push_back(nullptr);
+        execvp(args[0], args.data());
         //if execution reaches this line, that means execvp failed.
         perror("execvp");
         _exit(1);
